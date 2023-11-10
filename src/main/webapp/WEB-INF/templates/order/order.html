@@ -3,77 +3,55 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>购物车页面</title>
+    <title>我的订单</title>
     <link rel="stylesheet" th:href="@{/static/css/minireset.css}"/>
     <link rel="stylesheet" th:href="@{/static/css/common.css}"/>
     <link rel="stylesheet" th:href="@{/static/css/cart.css}"/>
-    <script language="JavaScript" th:src="@{/static/script/cart.js}"></script>
-    <script language="JavaScript" th:src="@{/static/script/vue.js}"></script>
-    <script language="JavaScript" th:src="@{/static/script/axios.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/static/css/bookManger.css}"/>
+    <link rel="stylesheet" th:href="@{/static/css/orderManger.css}"/>
   </head>
   <body>
     <div class="header">
       <div class="w">
         <div class="header-left">
-          <a th:href="@{/index.html}">
+          <a href="../index.html">
             <img th:src="@{/static/img/logo.gif}" alt=""/>
           </a>
-          <h1>我的购物车</h1>
+          <h1>我的订单</h1>
         </div>
         <div class="header-right">
           <h3>欢迎<span th:text="${session.user.uname}"></span>光临尚硅谷书城</h3>
-          <div class="order"><a th:href="@{/order.html}">我的订单</a></div>
           <div class="destory"><a th:href="@{/destory}">注销</a></div>
           <div class="gohome">
-            <a th:href="@{/}">返回</a>
+            <a th:href="@{/cartIndex}">返回</a>
           </div>
         </div>
       </div>
     </div>
-    <div class="list" id="cart_div">
+    <div class="list">
       <div class="w">
         <table>
           <thead>
             <tr>
-              <th>图片</th>
-              <th>商品名称</th>
-              <th>数量</th>
-              <th>单价</th>
-              <th>金额</th>
-              <th>操作</th>
+              <th>订单号</th>
+              <th>订单日期</th>
+              <th>订单金额</th>
+              <th>订单数量</th>
+              <th>订单状态</th>
+              <th>订单详情</th>
             </tr>
           </thead>
           <tbody>
-<!--            <tr th:each="cartItem : ${session.user.cart.cartItemMap.values()}">-->
-            <tr v-for="cartItem in cart.cartItemMap" >
-              <td>
-                <img :src="'static/uploads/'+cartItem.book.bookImg" alt="" />
-              </td>
-              <td >{{cartItem.book.bookName}}</td>
-              <td>
-                <span class="count" @click="editCart(cartItem.id,cartItem.buyCount - 1)" v-show="cartItem.buyCount > 1">-</span>
-                <input class="count-num" type="text" :value="cartItem.buyCount"/>
-                <span class="count" @click="editCart(cartItem.id,cartItem.buyCount + 1)" >+</span>
-              </td>
-              <td >{{cartItem.book.price}}</td>
-              <td >{{cartItem.xj}}</td>
-              <td>
-                <a href="#" @click="delCartItem(cartItem.id)" >删除</a>
-              </td>
+            <tr th:each="order : ${session.user.getOrderList()}">
+              <td th:text="${order.orderNo}"></td>
+              <td th:text="${#dates.format(order.orderDate,'yyyy-MM-dd')}"></td>
+              <td th:text="${order.orderMoney}"></td>
+              <td th:text="${order.totalBookCount}"></td>
+              <td><a href="" class="send">等待发货</a></td>
+              <td><a th:href="@{/orderController.do(oper='detailOrderItem',orderId=${order.id})}">查看详情</a></td>
             </tr>
           </tbody>
         </table>
-        <div class="footer">
-          <div class="footer-left">
-            <a href="#" class="clear-cart" th:onclick="delCart()">清空购物车</a>
-            <a th:href="@{/}">继续购物</a>
-          </div>
-          <div class="footer-right">
-            <div>共<span >{{cart.totalBookCount}}</span>件商品</div>
-            <div class="total-price">总金额<span>{{cart.totalMoney}}</span>元</div>
-            <a class="pay" th:href="@{/checkout}" v-show="cart.totalBookCount > 0">去结账</a>
-          </div>
-        </div>
       </div>
     </div>
     <div class="bottom">
@@ -104,7 +82,6 @@
           <dl>
             <dt>关于尚硅谷</dt>
             <dd>教育理念</dd>
-
           </dl>
           <dl>
             <dt>资源下载</dt>
@@ -113,7 +90,6 @@
           <dl>
             <dt>加入我们</dt>
             <dd>招聘岗位</dd>
-
           </dl>
           <dl>
             <dt>联系我们</dt>

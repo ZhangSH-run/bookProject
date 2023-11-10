@@ -12,6 +12,22 @@
 
     <!--List<CartItem> getCartItemByUserId(Integer id);-->
     <select id="getCartItemByUserId" resultMap="customMap">
-        SELECT * FROM t_cart_item WHERE userBean = #{id};
+        SELECT * FROM t_cart_item WHERE userBean = #{id}
     </select>
+
+    <!--void addCartItem(CartItem cartItem);-->
+    <insert id="addCartItem">
+        INSERT INTO t_cart_item(id,book,buyCount,userBean)
+            VALUES(null,#{book.id},#{buyCount},#{userBean.id})
+    </insert>
+
+    <!--void updateCartItem(CartItem cartItem);-->
+    <update id="updateCartItem">
+        UPDATE t_cart_item SET buyCount = #{buyCount} WHERE id = #{id}
+    </update>
+
+    <!--void delCartItem(CartItem cartItem);-->
+    <delete id="delCartItem">
+        DELETE FROM t_cart_item WHERE id = #{id}
+    </delete>
 </mapper>

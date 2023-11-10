@@ -1,11 +1,8 @@
 
-function delCartItem(cartItemId){
-    window.location.href='cartController.do?oper=delCartItem&cartItemId=' + cartItemId;
-}
 
 function delCart(){
     if (confirm("是否确认清空购物车？")){
-        window.location.href='cartController.do?oper=delCart';
+        window.location.href='delCart';
     }
 }
 
@@ -18,11 +15,8 @@ window.onload=function (){
         methods:{
           getCart:function (){
               axios({
-                  method:"POST",
-                  url:"cartController.do",
-                  params:{
-                      oper:"cartInfo"
-                  }
+                  method:"GET",
+                  url:"cartInfo",
               })
                   .then(function (value){
                       console.log(value);
@@ -35,9 +29,8 @@ window.onload=function (){
             editCart:function (cartItemId,buyCount){
               axios({
                   method: "POST",
-                  url: "cartController.do",
+                  url: "editCart",
                   params: {
-                      oper:"editCart",
                       cartItemId:cartItemId,
                       buyCount:buyCount
                   }
@@ -50,9 +43,8 @@ window.onload=function (){
             delCartItem:function (cartItemId){
               axios({
                   method:"POST",
-                  url:"cartController.do",
+                  url:"delCartItem",
                   params:{
-                      oper:"delCartItem",
                       cartItemId:cartItemId
                   }
               })

@@ -37,15 +37,12 @@ function checkRegist(){
     //请输入正确的邮箱格式
     var emailTxt = $("emailTxt");
     var email = emailTxt.value;
-    var emailReg =/^[a-zA-Z0-9_\.-]+@([a-zA-Z0-9-]+[\.]{1})+[a-zA-Z]+$/;
+    var emailReg =/^[a-zA-Z0-9]{4,11}@[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
     var emailSpan = $("emailSpan");
     if (!emailReg.test(email)){
         emailSpan.style.visibility="visible";
         return false;
-    }else {
-        emailSpan.style.visibility="visible";
     }
-
     return true;
 }
 

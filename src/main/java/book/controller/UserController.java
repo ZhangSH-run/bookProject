@@ -1,8 +1,10 @@
 package book.controller;
 
 import book.pojo.Cart;
+import book.pojo.Order;
 import book.pojo.User;
 import book.service.CartItemService;
+import book.service.OrderService;
 import book.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -19,6 +22,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private CartItemService cartItemService;
+    @Autowired
+    private OrderService orderService;
 
     @PostMapping("login")
     public String login(String uname, String pwd, HttpSession session){
@@ -28,6 +33,8 @@ public class UserController {
             if (user.getRole() == 0){
                 Cart cart = cartItemService.getCart(user);
                 user.setCart(cart);
+                List<Order> orderList = orderService.getOrderList(user);
+                user.setOrderList(orderList);
                 session.setAttribute("user",user);
                 return "redirect:/";
             }else {

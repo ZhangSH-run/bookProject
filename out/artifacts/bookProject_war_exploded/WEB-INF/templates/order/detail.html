@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>订单详情</title>
+    <link rel="stylesheet" th:href="@{/static/css/minireset.css}"/>
+    <link rel="stylesheet" th:href="@{/static/css/common.css}"/>
+    <link rel="stylesheet" th:href="@{/static/css/cart.css}"/>
+</head>
+<body>
+<div class="header">
+    <div class="w">
+        <div class="header-left">
+            <a th:href="@{/index.html}">
+                <img th:src="@{/static/img/logo.gif}" alt=""/>
+            </a>
+            <h1>我的购物车</h1>
+        </div>
+        <div class="header-right">
+            <h3>欢迎<span th:text="${session.user.uname}"></span>光临尚硅谷书城</h3>
+            <div class="destory"><a th:href="@{/userController.do(oper='destory')}">注销</a></div>
+            <div class="gohome">
+                <a th:href="@{/bookController.do(oper='index')}">返回</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="list">
+    <div class="w">
+        <table>
+            <thead>
+            <tr>
+                <th>图片</th>
+                <th>商品名称</th>
+                <th>数量</th>
+                <th>单价</th>
+                <th>下单时间</th>
+                <th>金额</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="orderItem : ${session.order.orderItemList}">
+                <td>
+                    <img th:src="@{|/static/uploads/${orderItem.book.bookImg}|}" alt="" />
+                </td>
+                <td th:text="${orderItem.book.bookName}"></td>
+                <td>
+                    <input class="count-num" type="text" th:value="${orderItem.buyCount}"/>
+                </td>
+                <td th:text="${orderItem.book.price}"></td>
+                <td th:text="${#dates.format(session.order.orderDate,'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td th:text="${orderItem.xj}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="footer">
+            <div class="footer-left">
+                <a href="#" class="clear-cart" ></a>
+                <a href="#"></a>
+            </div>
+            <div class="footer-right">
+                <div>共<span th:text="${session.order.totalBookCount}"></span>件商品</div>
+                <div class="total-price">总金额<span th:text="${session.order.orderMoney}">99.9</span>元</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>

@@ -101,4 +101,18 @@ public class Order {
     public Integer getTotalBookCount() {
         return totalBookCount;
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", orderNo='" + orderNo + '\'' +
+                ", orderDate=" + orderDate +
+                ", orderUser=" + orderUser +
+                ", orderMoney=" + orderMoney +
+                ", orderStatus=" + orderStatus +
+                ", totalBookCount=" + totalBookCount +
+                ", orderItemList=" + orderItemList +
+                '}';
+    }
 }

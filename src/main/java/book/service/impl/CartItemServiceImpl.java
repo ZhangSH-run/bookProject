@@ -31,10 +31,44 @@ public class CartItemServiceImpl implements CartItemService {
             Book book = bookService.getBookById(bookId);
             cartItem.setBook(book);
 
-            cartItemMap.put(cartItem.getId(),cartItem);
+            cartItemMap.put(book.getId(),cartItem);
         }
         Cart cart = new Cart();
         cart.setCartItemMap(cartItemMap);
         return cart;
+    }
+
+    @Override
+    public void addCartItem(CartItem cartItem) {
+        cartItemMapper.addCartItem(cartItem);
+    }
+
+    @Override
+    public void updateCartItem(CartItem cartItem) {
+        cartItemMapper.updateCartItem(cartItem);
+    }
+
+    @Override
+    public void addOrUpdateCartItem(CartItem cartItem, Cart cart) {
+        if (cart != null){
+            Map<Integer, CartItem> cartItemMap = cart.getCartItemMap();
+            if (cartItemMap == null){
+                cartItemMap = new HashMap<>();
+            }
+            if (cartItemMap.containsKey(cartItem.getBook().getId())){
+                CartItem cartItemValue = cartItemMap.get(cartItem.getBook().getId());
+                cartItemValue.setBuyCount(cartItemValue.getBuyCount() + 1);
+                this.updateCartItem(cartItemValue);
+            }else {
+                this.addCartItem(cartItem);
+            }
+        }else {
+            this.addCartItem(cartItem);
+        }
+    }
+
+    @Override
+    public void delCartItem(CartItem cartItem) {
+        cartItemMapper.delCartItem(cartItem);
     }
 }
