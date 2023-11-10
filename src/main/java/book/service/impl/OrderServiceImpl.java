@@ -57,10 +57,13 @@ public class OrderServiceImpl implements OrderService {
     public Order getOrderById(Integer orderId) {
         Order order = orderMapper.getOrderById(orderId);
         List<OrderItem> orderItemList = orderItemService.getOrderItemList(orderId);
+        Integer totalBookCount = 0;
         for (OrderItem orderItem : orderItemList){
+            totalBookCount += orderItem.getBuyCount();
             Book book = bookService.getBookById(orderItem.getBook().getId());
             orderItem.setBook(book);
         }
+        order.setTotalBookCount(totalBookCount);
         order.setOrderItemList(orderItemList);
         return order;
     }

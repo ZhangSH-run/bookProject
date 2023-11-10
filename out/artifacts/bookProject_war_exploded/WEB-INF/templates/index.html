@@ -152,7 +152,10 @@
                 <p th:text="|价格:￥*{price}|"></p>
                 <p th:text="|销量:*{saleCount}|"></p>
                 <p th:text="|库存:*{bookCount}|"></p>
-                <button th:onclick="|addCart(*{id})|">加入购物车</button>
+                <!--用户未登录，禁止点击-->
+                <button th:if="${session.user == null}" th:onclick="tipsLogin()">加入购物车</button>
+                <!--用户登录，允许点击-->
+                <button th:unless="${session.user == null}" th:onclick="|addCart(*{id})|">加入购物车</button>
               </div>
             </div>
           </div>
