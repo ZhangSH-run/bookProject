@@ -48,7 +48,7 @@
               <td th:text="${order.orderMoney}"></td>
               <td th:text="${order.totalBookCount}"></td>
               <td><a href="" class="send">等待发货</a></td>
-              <td><a th:href="@{/orderController.do(oper='detailOrderItem',orderId=${order.id})}">查看详情</a></td>
+              <td><a th:href="@{/detailOrderItem(orderId=${order.id})}">查看详情</a></td>
             </tr>
           </tbody>
         </table>

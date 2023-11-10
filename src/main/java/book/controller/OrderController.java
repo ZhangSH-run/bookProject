@@ -1,6 +1,7 @@
 package book.controller;
 
 import book.pojo.Order;
+import book.pojo.OrderItem;
 import book.pojo.User;
 import book.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,5 +44,10 @@ public class OrderController {
         return "order/order";
     }
 
-
+    @GetMapping("detailOrderItem")
+    public String detailOrderItem(Integer orderId,HttpSession session){
+        Order order = orderService.getOrderById(orderId);
+        session.setAttribute("order",order);
+        return "order/detail";
+    }
 }

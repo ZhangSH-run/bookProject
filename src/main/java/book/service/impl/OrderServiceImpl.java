@@ -2,12 +2,14 @@ package book.service.impl;
 
 import book.mapper.OrderMapper;
 import book.pojo.*;
+import book.service.BookService;
 import book.service.CartItemService;
 import book.service.OrderItemService;
 import book.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -19,6 +21,8 @@ public class OrderServiceImpl implements OrderService {
     private OrderItemService orderItemService;
     @Autowired
     private CartItemService cartItemService;
+    @Autowired
+    private BookService bookService;
     @Override
     public List<Order> getOrderList(User user) {
         List<Order> orderList = orderMapper.getOrderListByUserId(user.getId());
@@ -37,7 +41,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void addOrder(Order order,Cart cart) {
         orderMapper.addOrder(order);
-        Integer orderId = order.getId();
         Collection<CartItem> cartItems = cart.getCartItemMap().values();
         OrderItem orderItem = new OrderItem();
         for (CartItem cartItem : cartItems){
@@ -48,5 +51,17 @@ public class OrderServiceImpl implements OrderService {
             cartItemService.delCartItem(cartItem);
         }
 
+    }
+
+    @Override
+    public Order getOrderById(Integer orderId) {
+        Order order = orderMapper.getOrderById(orderId);
+        List<OrderItem> orderItemList = orderItemService.getOrderItemList(orderId);
+        for (OrderItem orderItem : orderItemList){
+            Book book = bookService.getBookById(orderItem.getBook().getId());
+            orderItem.setBook(book);
+        }
+        order.setOrderItemList(orderItemList);
+        return order;
     }
 }

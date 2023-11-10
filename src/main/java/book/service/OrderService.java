@@ -10,4 +10,6 @@ public interface OrderService {
     List<Order> getOrderList(User user);
 
     void addOrder(Order order,Cart cart);
+
+    Order getOrderById(Integer orderId);
 }

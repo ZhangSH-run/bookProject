@@ -30,18 +30,11 @@ public class UserController {
         User user = userService.login(uname, pwd);
         if (user != null){
             //普通用户
-            if (user.getRole() == 0){
-                Cart cart = cartItemService.getCart(user);
-                user.setCart(cart);
-                List<Order> orderList = orderService.getOrderList(user);
-                user.setOrderList(orderList);
-                session.setAttribute("user",user);
-                return "redirect:/";
-            }else {
-                //管理员账户
-                session.setAttribute("user",user);
-                return "manager/manager";
-            }
+            Cart cart = cartItemService.getCart(user);
+            user.setCart(cart);
+            List<Order> orderList = orderService.getOrderList(user);
+            user.setOrderList(orderList);
+            session.setAttribute("user",user);
         }
         return "redirect:/";
     }

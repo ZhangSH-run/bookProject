@@ -22,4 +22,9 @@
         INSERT INTO t_order(orderNo,orderDate,orderUser,orderMoney,orderStatus)
             VALUES(#{orderNo},#{orderDate},#{orderUser.id},#{orderMoney},#{orderStatus})
     </insert>
+
+    <!--Order getOrderById(Integer orderId);-->
+    <select id="getOrderById" resultMap="customMap">
+        SELECT * FROM t_order WHERE id = #{id}
+    </select>
 </mapper>

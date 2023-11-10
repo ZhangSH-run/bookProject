@@ -14,8 +14,8 @@ public class OrderItemServiceImpl implements OrderItemService {
     private OrderItemMapper orderItemMapper;
 
     @Override
-    public List<OrderItem> getOrderItemList(Integer id) {
-        List<OrderItem> orderItemList = orderItemMapper.getOrderItemByOrderId(id);
+    public List<OrderItem> getOrderItemList(Integer orderId) {
+        List<OrderItem> orderItemList = orderItemMapper.getOrderItemByOrderId(orderId);
         return orderItemList;
     }
 
@@ -23,5 +23,6 @@ public class OrderItemServiceImpl implements OrderItemService {
     public void addOrderItem(OrderItem orderItem) {
         orderItemMapper.addOrderItem(orderItem);
     }
+
 
 }
