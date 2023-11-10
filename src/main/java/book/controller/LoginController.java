@@ -2,14 +2,15 @@ package book.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class LoginController {
-    @GetMapping("login.html")
+    @RequestMapping("login.html")
     public String loginHtml(){
         return "user/login";
     }
-    @GetMapping("regist.html")
+    @RequestMapping("regist.html")
     public String registHtml(){
         return "user/regist";
     }

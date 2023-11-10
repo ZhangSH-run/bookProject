@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -27,7 +29,7 @@ public class UserController {
                 Cart cart = cartItemService.getCart(user);
                 user.setCart(cart);
                 session.setAttribute("user",user);
-                return "redirect:bookController.do?oper=index";
+                return "redirect:/";
             }else {
                 //管理员账户
                 session.setAttribute("user",user);
@@ -41,5 +43,33 @@ public class UserController {
     public String destory(HttpSession session){
         session.invalidate();
         return "redirect:/";
+    }
+
+    @PostMapping("regist")
+    public String regist(String uname, String pwd1, String email, String verifyCode, HttpSession session, HttpServletRequest request){
+        Object kaptchaSessionKey = session.getAttribute("KAPTCHA_SESSION_KEY");
+        if (kaptchaSessionKey == null || !verifyCode.equals(kaptchaSessionKey)){
+            request.setAttribute("KAPTCHA_MESSAGE","验证码错误请重新注册。");
+            return "forward:regist.html";
+        }else {
+            if (kaptchaSessionKey.equals(verifyCode)){
+                User user = new User(uname,pwd1,email);
+                userService.regist(user);
+                return "redirect:login.html";
+            }
+        }
+        return "redirect:/";
+    }
+    @GetMapping("checkUname")
+    @ResponseBody
+    public String checkUname(String uname){
+        User user = userService.getUserByUsername(uname);
+        if (user != null){
+            //用户名已经被占用，不可以注册
+            return "1";
+        }else {
+            //用户名可以注册
+            return "0";
+        }
     }
 }

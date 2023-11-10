@@ -2,6 +2,7 @@ package book.service.impl;
 
 import book.mapper.UserMapper;
 import book.pojo.User;
+import book.service.CartItemService;
 import book.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
+
     @Override
     public User login(String uname, String pwd) {
         User user = userMapper.getUserByUserName(uname);
@@ -19,6 +21,17 @@ public class UserServiceImpl implements UserService {
         if (!user.getPwd().equals(pwd)){
             throw new RuntimeException("账号或密码错误！");
         }
+        return user;
+    }
+
+    @Override
+    public void regist(User user) {
+        userMapper.addUser(user);
+    }
+
+    @Override
+    public User getUserByUsername(String uname) {
+        User user = userMapper.getUserByUserName(uname);
         return user;
     }
 }

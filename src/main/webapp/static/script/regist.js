@@ -63,7 +63,7 @@ function createXMLHttpRequest(){
 }
 function checkUname(uname){
     createXMLHttpRequest();
-    var url = "/userController.do?oper=checkUname&uname="+uname;
+    var url = "checkUname?uname="+uname;
     xmlHttpRequest.open("GET",url,true);
     //设置回调函数
     xmlHttpRequest.onreadystatechange = checkUnameCB;
@@ -76,10 +76,8 @@ function checkUnameCB(){
         //xmlHttpRequest.responseText 表示服务器端响应给我的文本内容
         //alert(xmlHttpRequest.responseText);
         var responseText = xmlHttpRequest.responseText;
-        if (responseText == "{'uname':'1'}"){
+        if (responseText == "1"){
             alert("用户名已经被注册！");
-        }else {
-            alert(responseText);
         }
     }
 }
