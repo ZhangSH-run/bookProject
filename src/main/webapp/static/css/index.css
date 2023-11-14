@@ -82,7 +82,7 @@
 .header-logo {
   width: 200px;
   height: 62px;
-  background: url('../img/logo.gif') no-repeat;
+  /*background: url('../img/logo.gif') no-repeat;*/
   background-size: 100%;
 }
 .header-nav li {
